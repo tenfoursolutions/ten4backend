@@ -9,5 +9,16 @@ describe('Post', function() {
       .get('/status')
       .expect(/Hello there!/, done);
    });
+   it('posting contact form', function(done) {
+      request(app)
+      .post('/contact')
+      .send({ name: 'John Morales',
+        email: 'jmorales@gmail.com',
+        subject: 'This is a test',
+        website: 'http://www.google.com',
+        message: "I'm interested in your services"
+      })
+      .expect(200, done);
+   });
  });
 });
