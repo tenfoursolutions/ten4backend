@@ -7,9 +7,10 @@
     "express": "3.x",
     "supertest": "*",
     "sequelize": "*",
-    "mysql": "*"
+    "mysql": "*",
+    "nodemailer": "~0.6.5"
   },
   "scripts": {
-    "start" : "app.js"
+    "start": "app.js"
   }
 }

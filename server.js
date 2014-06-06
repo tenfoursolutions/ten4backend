@@ -1,15 +1,9 @@
 var express = require('express');
-var Sequelize = require('sequelize'),
-    sequelize = new Sequelize('ten4contact', 'ten4contact', 'p@ss');
+var nodemailer = require("nodemailer");
+var aws = require('./aws.js')
+var util = require('util');
 
-var Contact = sequelize.define('Contact', {
-  contact_id: { type: Sequelize.INTEGER, primaryKey: true},
-  name: Sequelize.STRING,
-  email: Sequelize.STRING,
-  subject: Sequelize.STRING,
-  website: Sequelize.STRING,
-  message: Sequelize.STRING
-});
+var transport = nodemailer.createTransport("SES", aws);
 
 var app = express();
 app.use(express.bodyParser());
@@ -19,12 +13,22 @@ app.get('/status', function(req, res) {
 });
 
 app.post('/contact', function(req, res) {
-  //console.log(req.body);
-  Contact.create(req.body).success(function(sdepold) {
-    res.send('');
-  }).error(function(erro) {
-    console.log(erro.text);
-    throw erro;
+  var mailOptions = {
+    from: "website@tenfoursolutions.com",
+    to: "contact@tenfoursolutions.com",
+    subject: "Request from possible client.",
+    text: util.inspect(req.body)
+  };
+  console.log(req.body);
+
+  transport.sendMail(mailOptions, function(error, response){
+    if(error){
+      res.send('Error.')
+      console.log(error);
+    }else{
+      res.send('Message sent.');
+      console.log("Message sent: " + response.message);
+    }
   });
 });
 
