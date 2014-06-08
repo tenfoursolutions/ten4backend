@@ -1,7 +1,10 @@
 var express = require('express');
 var nodemailer = require("nodemailer");
-var aws = require('./aws.js')
+var aws = require('./aws.js');
 var util = require('util');
+var Handlebars = require("handlebars");
+require('./email_templates/compiled/first_contact.js');
+var email_template = Handlebars.templates['first_contact.html'];
 
 var transport = nodemailer.createTransport("SES", aws);
 
@@ -17,13 +20,13 @@ app.post('/contact', function(req, res) {
     from: "website@tenfoursolutions.com",
     to: "contact@tenfoursolutions.com",
     subject: "Request from possible client.",
-    text: util.inspect(req.body)
+    html: email_template(req.body)
   };
   console.log(req.body);
 
   transport.sendMail(mailOptions, function(error, response){
     if(error){
-      res.send('Error.')
+      res.send('Error.');
       console.log(error);
     }else{
       res.send('Message sent.');
