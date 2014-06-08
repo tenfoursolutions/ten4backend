@@ -1,3 +1,4 @@
 node_modules
 *.swp
 aws.js
+email_templates/compiled
