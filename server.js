@@ -26,13 +26,12 @@ app.post('/contact', function(req, res) {
 
   transport.sendMail(mailOptions, function(error, response){
     if(error){
-      res.send('Error.');
       console.log(error);
     }else{
-      res.send('Message sent.');
       console.log("Message sent: " + response.message);
     }
   });
+  res.send(200);
 });
 
 var port = process.env.PORT || 5000;
