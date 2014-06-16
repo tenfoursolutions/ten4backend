@@ -31,7 +31,7 @@ app.post('/contact', function(req, res) {
       console.log("Message sent: " + response.message);
     }
   });
-  res.send(200);
+  res.send(200, { "status": "OK", "message": "Thanks, we'll respond shortly."});
 });
 
 var port = process.env.PORT || 5000;
